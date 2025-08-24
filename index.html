@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rahlil — Portofolio Interaktif</title>
+  <meta name="description" content="Portofolio interaktif Rahlil. Web Developer • UI/UX • Frontend Engineering." />
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Swiper, AOS, GLightbox -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+  <style>
+    /* ==== THEME & TOKENS ==== */
+    :root{
+      --bg-1: #0b0f1a;
+      --bg-2: #0f1526;
+      --card: rgba(255,255,255,.06);
+      --text: #e6e9f2;
+      --muted: #97a0b5;
+      --primary: #6c5ce7;   /* purple */
+      --secondary: #00d1b2; /* teal */
+      --accent: #00b4ff;    /* blue neon */
+      --gradient: linear-gradient(135deg, #6c5ce7 0%, #00b4ff 50%, #00d1b2 100%);
+      --radius-xl: 24px;
+      --shadow-lg: 0 20px 60px rgba(0,0,0,.45);
+      --section-pad: 96px;
+    }
+    [data-bs-theme="light"]{
+      --bg-1:#f6f7fb; --bg-2:#ffffff; --card: rgba(0,0,0,.05); --text:#1a1f2e; --muted:#5e667a;
+      --shadow-lg: 0 20px 60px rgba(20,30,60,.12);
+    }
+    html,body{ background: radial-gradient(1200px 500px at -20% -10%, rgba(108,92,231,.15), transparent 60%),
+                         radial-gradient(800px 600px at 120% 20%, rgba(0,180,255,.12), transparent 60%), var(--bg-1);
+               color: var(--text); scroll-behavior:smooth }
+    section{ padding: var(--section-pad) 0 }
+    .container-xxl{ max-width: 1300px }
+
+    /* ==== NAVBAR ==== */
+    .navbar-blur{ backdrop-filter: blur(10px); background: rgba(10,14,26,.55); border-bottom:1px solid rgba(255,255,255,.06) }
+    [data-bs-theme="light"] .navbar-blur{ background: rgba(255,255,255,.6); border-color: rgba(0,0,0,.06) }
+    .brand-badge{ background: var(--card); border:1px solid rgba(255,255,255,.08); padding:.35rem .6rem; border-radius:999px; font-size:.8rem }
+
+    /* ==== HERO ==== */
+    .hero{ position:relative; min-height: 96vh; display:grid; place-items:center; overflow:clip }
+    .hero-layer{ position:absolute; inset:0; pointer-events:none }
+    .particles{ position:absolute; inset:0; opacity:.9 }
+    .glow-blob{ position:absolute; width:640px; height:640px; border-radius:50%; filter: blur(90px); opacity:.35 }
+    .glow-1{ background:#6c5ce7; top:-120px; left:-160px }
+    .glow-2{ background:#00b4ff; bottom:-180px; right:-160px }
+
+    .hero-card{ background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+                border:1px solid rgba(255,255,255,.08); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg) }
+    .btn-gradient{ background: var(--gradient); color:#fff; border:0 }
+    .btn-gradient:hover{ filter:brightness(1.05); transform: translateY(-1px) }
+    .btn-ghost{ background: var(--card); border:1px solid rgba(255,255,255,.1); color: var(--text) }
+
+    /* ==== SECTION TITLES ==== */
+    .section-title{ font-weight:800; letter-spacing:.3px }
+    .title-underline{ width:100px; height:4px; background:var(--gradient); border-radius:999px }
+
+    /* ==== CARDS / EFFECTS ==== */
+    .glass{ background:var(--card); border:1px solid rgba(255,255,255,.09); box-shadow: var(--shadow-lg); border-radius: var(--radius-xl) }
+    .tilt{ will-change: transform }
+    .hover-rise{ transition: transform .25s ease, box-shadow .25s ease }
+    .hover-rise:hover{ transform: translateY(-6px) }
+    .badge-pill{ border-radius:999px; padding:.45rem .8rem; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.1) }
+
+    /* ==== SKILLS ==== */
+    .progress{ height: 12px; background: rgba(255,255,255,.08) }
+    .progress-bar{ background: var(--gradient) }
+
+    /* ==== TIMELINE ==== */
+    .timeline{ position:relative }
+    .timeline::before{ content:""; position:absolute; top:0; bottom:0; left:20px; width:4px; background: var(--gradient); border-radius:999px }
+    .timeline-item{ position:relative; padding-left:72px; margin-bottom:28px }
+    .timeline-item::before{ content:""; position:absolute; left:12px; top:4px; width:20px; height:20px; border-radius:50%; background:#0b0f1a; border:4px solid #6c5ce7; box-shadow:0 0 0 6px rgba(108,92,231,.15) }
+    [data-bs-theme="light"] .timeline-item::before{ background:#fff }
+
+    /* ==== GALLERY ==== */
+    .gallery img{ aspect-ratio: 1.2/1; object-fit:cover; border-radius:18px }
+
+    /* ==== FOOTER ==== */
+    footer{ padding: 24px 0; border-top: 1px solid rgba(255,255,255,.08) }
+
+    /* ==== UTILITIES ==== */
+    .text-gradient{ background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent }
+    .shadow-neon{ box-shadow: 0 0 40px rgba(0,180,255,.25), 0 0 60px rgba(108,92,231,.18) }
+    .icon-xl{ font-size: 2.2rem }
+    .tag{ font-size:.85rem; padding:.35rem .7rem; border:1px dashed rgba(255,255,255,.15); border-radius:999px }
+
+    @media (max-width: 575.98px){
+      .display-4{ font-size: 2.2rem }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-blur sticky-top">
+    <div class="container-xxl">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
+        <span class="brand-badge">R</span>
+        <span class="fw-bold">Rahlil</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav" aria-controls="offcanvasNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNav">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Navigasi</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+            <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
+            <li class="nav-item"><a class="nav-link" href="#skills">Keahlian</a></li>
+            <li class="nav-item"><a class="nav-link" href="#services">Layanan</a></li>
+            <li class="nav-item"><a class="nav-link" href="#projects">Proyek</a></li>
+            <li class="nav-item"><a class="nav-link" href="#experience">Pengalaman</a></li>
+            <li class="nav-item"><a class="nav-link" href="#testimonials">Testimoni</a></li>
+            <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="#gallery">Galeri</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
+            <li class="nav-item ms-lg-2">
+              <button id="themeToggle" class="btn btn-outline-light btn-sm" aria-label="Toggle theme"><i class="bi bi-sun"></i></button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="home" class="hero">
+    <div class="hero-layer glow-blob glow-1"></div>
+    <div class="hero-layer glow-blob glow-2"></div>
+    <canvas class="hero-layer particles" id="particles" aria-hidden="true"></canvas>
+
+    <div class="container-xxl position-relative">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <div class="p-4 p-md-5 hero-card">
+            <span class="badge-pill mb-3 d-inline-flex align-items-center gap-2"><i class="bi bi-lightning-charge-fill text-warning"></i> Tersedia untuk proyek freelance</span>
+            <h1 class="display-4 fw-bold mb-2">Hai, saya <span class="text-gradient">Rahlil</span>.</h1>
+            <p class="lead text-secondary mb-3"><span id="typed"></span></p>
+            <p class="mb-4">Saya membangun website yang <strong>cepat</strong>, <strong>cantik</strong>, dan <strong>aksesibel</strong> menggunakan teknologi modern. Fokus pada pengalaman pengguna, performa, dan detail desain.</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="#projects" class="btn btn-gradient btn-lg shadow-neon"><i class="bi bi-rocket-takeoff"></i> Lihat Proyek</a>
+              <a href="#contact" class="btn btn-ghost btn-lg"><i class="bi bi-envelope"></i> Hubungi Saya</a>
+            </div>
+            <div class="d-flex gap-3 mt-4">
+              <a class="text-secondary" href="https://github.com/" target="_blank" aria-label="GitHub"><i class="bi bi-github icon-xl"></i></a>
+              <a class="text-secondary" href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin icon-xl"></i></a>
+              <a class="text-secondary" href="mailto:rahlil@example.com" aria-label="Email"><i class="bi bi-envelope-at icon-xl"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="glass p-3 p-md-4 text-center tilt">
+            <img src="./image.png" alt="Foto Rahlil" class="rounded-circle shadow-neon" style="width:240px;height:240px;object-fit:cover">
+            <div class="mt-3 d-flex flex-wrap justify-content-center gap-2">
+              <span class="tag">#Frontend</span>
+              <span class="tag">#Bootstrap</span>
+              <span class="tag">#React</span>
+              <span class="tag">#UIUX</span>
+            </div>
+            <div class="row text-center mt-3 g-2">
+              <div class="col-4"><div class="p-3 glass"><div class="h4 mb-0" data-counter="36">0</div><small>Proyek</small></div></div>
+              <div class="col-4"><div class="p-3 glass"><div class="h4 mb-0" data-counter="18">0</div><small>Klien</small></div></div>
+              <div class="col-4"><div class="p-3 glass"><div class="h4 mb-0" data-counter="14">0</div><small>Tahun</small></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Tentang Saya</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-7" data-aos="fade-up">
+          <p class="fs-5 text-secondary">Saya <strong>Rahlil</strong>, Web Developer yang gemar mengubah ide menjadi produk digital yang nyata. Nilai saya: <em>clean, useful, delightful</em>. Senang kolaborasi dengan tim lintas fungsi.</p>
+          <div class="row g-3 mt-3">
+            <div class="col-md-6">
+              <div class="glass p-3 h-100">
+                <h6 class="mb-1"><i class="bi bi-stars text-warning"></i> Kekuatan</h6>
+                <ul class="mb-0 small text-secondary ps-3">
+                  <li>Detail desain & aksesibilitas</li>
+                  <li>Performa & optimasi SEO</li>
+                  <li>Komunikasi & manajemen waktu</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="glass p-3 h-100">
+                <h6 class="mb-1"><i class="bi bi-gear text-info"></i> Tech Stack</h6>
+                <div class="d-flex flex-wrap gap-2 small">
+                  <span class="badge-pill">HTML</span>
+                  <span class="badge-pill">CSS/SCSS</span>
+                  <span class="badge-pill">Bootstrap</span>
+                  <span class="badge-pill">JavaScript</span>
+                  <span class="badge-pill">React</span>
+                  <span class="badge-pill">Node</span>
+                  <span class="badge-pill">REST API</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 d-flex flex-wrap gap-2">
+            <a href="#contact" class="btn btn-gradient"><i class="bi bi-chat-dots"></i> Ajak Kolaborasi</a>
+            <a href="#" class="btn btn-ghost"><i class="bi bi-download"></i> Unduh CV</a>
+          </div>
+        </div>
+        <div class="col-lg-5" data-aos="fade-up" data-aos-delay="100">
+          <div class="ratio ratio-16x9 glass overflow-hidden">
+            <iframe title="Showreel" loading="lazy"
+              srcdoc='<!DOCTYPE html><html><body style="margin:0;background:#0b0f1a;color:#e6e9f2;font-family:system-ui;display:grid;place-items:center"><div style="text-align:center"><div style="font-size:56px">🧩</div><div style="opacity:.8">Problem solving is my superpower</div></div></body></html>'>
+            </iframe>
+          </div>
+          <small class="text-secondary d-block mt-2">Showreel mini — ganti dengan video proyek Anda.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="bg-body-tertiary">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Keahlian</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6" data-aos="zoom-in">
+          <div class="glass p-4">
+            <div class="mb-3"><strong>HTML/CSS</strong>
+              <div class="progress"><div class="progress-bar" style="width:92%">92%</div></div>
+            </div>
+            <div class="mb-3"><strong>JavaScript</strong>
+              <div class="progress"><div class="progress-bar" style="width:88%">88%</div></div>
+            </div>
+            <div class="mb-3"><strong>Bootstrap</strong>
+              <div class="progress"><div class="progress-bar" style="width:90%">90%</div></div>
+            </div>
+            <div class="mb-0"><strong>React</strong>
+              <div class="progress"><div class="progress-bar" style="width:78%">78%</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
+          <div class="row g-3">
+            <div class="col-6"><div class="glass p-3 text-center hover-rise"><i class="bi bi-braces icon-xl"></i><div>Clean Code</div></div></div>
+            <div class="col-6"><div class="glass p-3 text-center hover-rise"><i class="bi bi-speedometer2 icon-xl"></i><div>Performance</div></div></div>
+            <div class="col-6"><div class="glass p-3 text-center hover-rise"><i class="bi bi-universal-access-circle icon-xl"></i><div>Accessibility</div></div></div>
+            <div class="col-6"><div class="glass p-3 text-center hover-rise"><i class="bi bi-translate icon-xl"></i><div>i18n</div></div></div>
+          </div>
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <span class="tag">Figma</span>
+            <span class="tag">Git</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">SEO</span>
+            <span class="tag">Testing</span>
+            <span class="tag">PWAs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Layanan</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-xl-3" data-aos="fade-up">
+          <div class="glass p-4 tilt h-100">
+            <i class="bi bi-window-fullscreen icon-xl"></i>
+            <h5 class="mt-3">Landing Page</h5>
+            <p class="text-secondary">Konversi tinggi, SEO-ready, animasi halus, dan cepat di-load.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="100">
+          <div class="glass p-4 tilt h-100">
+            <i class="bi bi-kanban icon-xl"></i>
+            <h5 class="mt-3">Dashboard</h5>
+            <p class="text-secondary">Visualisasi data, grafik interaktif, dan kontrol akses.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="200">
+          <div class="glass p-4 tilt h-100">
+            <i class="bi bi-bag-check icon-xl"></i>
+            <h5 class="mt-3">E-Commerce</h5>
+            <p class="text-secondary">Katalog, keranjang, checkout, payment gateway siap pakai.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="300">
+          <div class="glass p-4 tilt h-100">
+            <i class="bi bi-magic icon-xl"></i>
+            <h5 class="mt-3">UI/UX</h5>
+            <p class="text-secondary">Wireframe, prototipe, usability testing, dan design system.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="bg-body-tertiary">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Proyek Pilihan</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <!-- Swiper Showcase -->
+      <div class="swiper mySwiper mb-4" data-aos="fade-up">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="glass p-3">
+              <img class="w-100 rounded-4" src="https://picsum.photos/seed/p1/1200/600" alt="Proyek 1" />
+              <div class="p-3">
+                <h5>Brand Landing — Boost +42% CTR</h5>
+                <div class="text-secondary small">Bootstrap • A11y • SEO</div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="glass p-3">
+              <img class="w-100 rounded-4" src="https://picsum.photos/seed/p2/1200/600" alt="Proyek 2" />
+              <div class="p-3">
+                <h5>Analytics Dashboard — Realtime</h5>
+                <div class="text-secondary small">Charts • API • Dark mode</div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="glass p-3">
+              <img class="w-100 rounded-4" src="https://picsum.photos/seed/p3/1200/600" alt="Proyek 3" />
+              <div class="p-3">
+                <h5>Storefront — Mini Commerce</h5>
+                <div class="text-secondary small">Cart • LocalStorage • UX</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+      <!-- Grid -->
+      <div class="row g-4">
+        <div class="col-md-6 col-xl-4" data-aos="zoom-in">
+          <div class="glass hover-rise h-100">
+            <img src="https://picsum.photos/seed/app1/900/520" class="w-100 rounded-top-4" alt="Project 1">
+            <div class="p-3">
+              <h5>Company Profile Pro</h5>
+              <p class="text-secondary">Profil perusahaan modern dengan animasi AOS & skor Lighthouse hijau.</p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="badge-pill">Bootstrap</span>
+                <span class="badge-pill">Perf</span>
+                <span class="badge-pill">A11y</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a class="btn btn-ghost w-50" href="#" target="_blank"><i class="bi bi-box-arrow-up-right"></i> Demo</a>
+                <a class="btn btn-gradient w-50" href="#" target="_blank"><i class="bi bi-github"></i> Code</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4" data-aos="zoom-in" data-aos-delay="50">
+          <div class="glass hover-rise h-100">
+            <img src="https://picsum.photos/seed/app2/900/520" class="w-100 rounded-top-4" alt="Project 2">
+            <div class="p-3">
+              <h5>Event Ticketing</h5>
+              <p class="text-secondary">Daftar acara, pembayaran, dan QR pass. UI ramah mobile.</p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="badge-pill">JS</span>
+                <span class="badge-pill">API</span>
+                <span class="badge-pill">PWA</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a class="btn btn-ghost w-50" href="#"><i class="bi bi-box-arrow-up-right"></i> Demo</a>
+                <a class="btn btn-gradient w-50" href="#"><i class="bi bi-github"></i> Code</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4" data-aos="zoom-in" data-aos-delay="100">
+          <div class="glass hover-rise h-100">
+            <img src="https://picsum.photos/seed/app3/900/520" class="w-100 rounded-top-4" alt="Project 3">
+            <div class="p-3">
+              <h5>Blog Engine</h5>
+              <p class="text-secondary">Portal artikel cepat dengan pencarian dan pagination client-side.</p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="badge-pill">SSR</span>
+                <span class="badge-pill">Cache</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a class="btn btn-ghost w-50" href="#"><i class="bi bi-box-arrow-up-right"></i> Demo</a>
+                <a class="btn btn-gradient w-50" href="#"><i class="bi bi-github"></i> Code</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- /row -->
+    </div>
+  </section>
+
+  <!-- EXPERIENCE / TIMELINE -->
+  <section id="experience">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Pengalaman</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="timeline" data-aos="fade-up">
+        <div class="timeline-item">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h5 class="mb-1">Front-End Developer — <span class="text-gradient">Freelance</span></h5>
+              <div class="text-secondary">Remote • 2022 — Sekarang</div>
+            </div>
+            <span class="badge-pill">Kontrak</span>
+          </div>
+          <ul class="mt-2 mb-0 small text-secondary ps-3">
+            <li>Bangun landing page & dashboard, migrasi ke Bootstrap 5.</li>
+            <li>Optimasi Core Web Vitals, aksesibilitas, dan SEO teknis.</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h5 class="mb-1">UI/UX Intern — Studio Kreatif</h5>
+              <div class="text-secondary">Jakarta • 2021 — 2022</div>
+            </div>
+            <span class="badge-pill">Magang</span>
+          </div>
+          <ul class="mt-2 mb-0 small text-secondary ps-3">
+            <li>Riset pengguna, wireframing, dan design system ringan.</li>
+            <li>Peningkatan retensi user melalui perbaikan alur onboarding.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="bg-body-tertiary">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Testimoni</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="swiper swiperTesti" data-aos="fade-up">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <figure class="glass p-4 p-lg-5 mx-auto" style="max-width:900px;">
+              <blockquote class="blockquote mb-3">“Rahlil detail & cepat. Konversi landing page kami naik signifikan.”</blockquote>
+              <figcaption class="blockquote-footer mb-0">Rania — Brand Manager</figcaption>
+            </figure>
+          </div>
+          <div class="swiper-slide">
+            <figure class="glass p-4 p-lg-5 mx-auto" style="max-width:900px;">
+              <blockquote class="blockquote mb-3">“Komunikatif dan proaktif memberi solusi UI. Sangat recommended.”</blockquote>
+              <figcaption class="blockquote-footer mb-0">Andi — Product Owner</figcaption>
+            </figure>
+          </div>
+          <div class="swiper-slide">
+            <figure class="glass p-4 p-lg-5 mx-auto" style="max-width:900px;">
+              <blockquote class="blockquote mb-3">“Score Lighthouse hijau semua. UX lebih mulus.”</blockquote>
+              <figcaption class="blockquote-footer mb-0">Salsa — CTO</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Blog & Catatan</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-xl-4" data-aos="fade-up">
+          <article class="glass h-100 hover-rise">
+            <img src="https://picsum.photos/seed/b1/900/520" class="w-100 rounded-top-4" alt="Blog 1">
+            <div class="p-3">
+              <h5>Checklist Aksesibilitas untuk Dev</h5>
+              <p class="text-secondary">Langkah-langkah praktis agar fitur Anda ramah semua pengguna.</p>
+              <a href="#" class="btn btn-ghost">Baca</a>
+            </div>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4" data-aos="fade-up" data-aos-delay="50">
+          <article class="glass h-100 hover-rise">
+            <img src="https://picsum.photos/seed/b2/900/520" class="w-100 rounded-top-4" alt="Blog 2">
+            <div class="p-3">
+              <h5>Optimasi Core Web Vitals</h5>
+              <p class="text-secondary">Teknik cepat membuat LCP, CLS, TBT jadi hijau semua.</p>
+              <a href="#" class="btn btn-ghost">Baca</a>
+            </div>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4" data-aos="fade-up" data-aos-delay="100">
+          <article class="glass h-100 hover-rise">
+            <img src="https://picsum.photos/seed/b3/900/520" class="w-100 rounded-top-4" alt="Blog 3">
+            <div class="p-3">
+              <h5>Design Tokens di Bootstrap</h5>
+              <p class="text-secondary">Cara konsistenkan tema & komponen lewat CSS custom properties.</p>
+              <a href="#" class="btn btn-ghost">Baca</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="bg-body-tertiary">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Galeri</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="row g-3 gallery" data-aos="zoom-in">
+        <div class="col-6 col-md-4 col-xl-3"><a class="glightbox" href="https://picsum.photos/seed/g1/1600/1000"><img class="w-100" src="https://picsum.photos/seed/g1/800/600" alt="g1"></a></div>
+        <div class="col-6 col-md-4 col-xl-3"><a class="glightbox" href="https://picsum.photos/seed/g2/1600/1000"><img class="w-100" src="https://picsum.photos/seed/g2/800/600" alt="g2"></a></div>
+        <div class="col-6 col-md-4 col-xl-3"><a class="glightbox" href="https://picsum.photos/seed/g3/1600/1000"><img class="w-100" src="https://picsum.photos/seed/g3/800/600" alt="g3"></a></div>
+        <div class="col-6 col-md-4 col-xl-3"><a class="glightbox" href="https://picsum.photos/seed/g4/1600/1000"><img class="w-100" src="https://picsum.photos/seed/g4/800/600" alt="g4"></a></div>
+        <div class="col-6 col-md-4 col-xl-3"><a class="glightbox" href="https://picsum.photos/seed/g5/1600/1000"><img class="w-100" src="https://picsum.photos/seed/g5/800/600" alt="g5"></a></div>
+        <div class="col-6 col-md-4 col-xl-3"><a class="glightbox" href="https://picsum.photos/seed/g6/1600/1000"><img class="w-100" src="https://picsum.photos/seed/g6/800/600" alt="g6"></a></div>
+        <div class="col-6 col-md-4 col-xl-3"><a class="glightbox" href="https://picsum.photos/seed/g7/1600/1000"><img class="w-100" src="https://picsum.photos/seed/g7/800/600" alt="g7"></a></div>
+        <div class="col-6 col-md-4 col-xl-3"><a class="glightbox" href="https://picsum.photos/seed/g8/1600/1000"><img class="w-100" src="https://picsum.photos/seed/g8/800/600" alt="g8"></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Paket & Harga</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-xl-4" data-aos="fade-up">
+          <div class="glass p-4 h-100">
+            <h5>Starter</h5>
+            <div class="display-6 fw-bold">IDR 2.5jt</div>
+            <ul class="small text-secondary ps-3 mt-2">
+              <li>Landing page 1 section</li>
+              <li>Responsif, SEO basic</li>
+              <li>Revisi 2x</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost">Pesan</a>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4" data-aos="fade-up" data-aos-delay="50">
+          <div class="glass p-4 h-100 border border-2 border-info shadow-neon">
+            <h5>Pro</h5>
+            <div class="display-6 fw-bold">IDR 6jt</div>
+            <ul class="small text-secondary ps-3 mt-2">
+              <li>Landing page + blog</li>
+              <li>Integrasi API</li>
+              <li>Revisi 4x</li>
+            </ul>
+            <a href="#contact" class="btn btn-gradient">Pesan</a>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="glass p-4 h-100">
+            <h5>Custom</h5>
+            <div class="display-6 fw-bold">Hubungi</div>
+            <ul class="small text-secondary ps-3 mt-2">
+              <li>Dashboard / e-commerce</li>
+              <li>Design system, performance</li>
+              <li>Support prioritas</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost">Diskusikan</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="bg-body-tertiary">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">FAQ</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="accordion glass" id="faqAcc" data-aos="fade-up">
+        <div class="accordion-item bg-transparent">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#f1">Berapa lama pengerjaan?</button>
+          </h2>
+          <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-secondary">Tergantung scope. Landing page biasanya 3–7 hari kerja.</div>
+          </div>
+        </div>
+        <div class="accordion-item bg-transparent">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">Apakah support setelah live?</button>
+          </h2>
+          <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-secondary">Ya, termasuk masa garansi & perbaikan minor.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container-xxl">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h2 class="section-title mb-0">Kontak</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6" data-aos="fade-up">
+          <div class="glass p-4 h-100">
+            <h5 class="fw-bold mb-3">Katakan Hai 👋</h5>
+            <form id="contactForm" novalidate>
+              <div class="mb-3">
+                <label class="form-label" for="name">Nama</label>
+                <input class="form-control" id="name" name="name" placeholder="Nama lengkap" required />
+                <div class="invalid-feedback">Nama wajib diisi.</div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="nama@email.com" required />
+                <div class="invalid-feedback">Masukkan email yang valid.</div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="message">Pesan</label>
+                <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tulis pesan Anda..." required></textarea>
+                <div class="invalid-feedback">Pesan tidak boleh kosong.</div>
+              </div>
+              <div class="d-grid d-sm-flex gap-2">
+                <button class="btn btn-gradient" type="submit"><i class="bi bi-send"></i> Kirim</button>
+                <button class="btn btn-ghost" type="reset"><i class="bi bi-x-circle"></i> Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="glass h-100 overflow-hidden">
+            <iframe class="w-100" height="360" style="border:0" loading="lazy" allowfullscreen
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.731!2d106.816666!3d-6.200000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2sJakarta!5e0!3m2!1sid!2sid!4v1680000000000" title="Lokasi Jakarta"></iframe>
+            <div class="p-3">
+              <div class="d-flex flex-column gap-1">
+                <div><i class="bi bi-envelope me-2"></i> rahlil@example.com</div>
+                <div><i class="bi bi-telephone me-2"></i> +62 812-3456-7890</div>
+                <div><i class="bi bi-geo me-2"></i> Jakarta, Indonesia</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- /row -->
+    </div>
+  </section>
+
+  <footer class="mt-4">
+    <div class="container-xxl d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <div class="small text-secondary">© <span id="year"></span> Rahlil — Dibuat dengan <i class="bi bi-heart-fill"></i> & Bootstrap.</div>
+      <div class="d-flex gap-3">
+        <a class="text-secondary" href="#home">Beranda</a>
+        <a class="text-secondary" href="#projects">Proyek</a>
+        <a class="text-secondary" href="#contact">Kontak</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top button -->
+  <button id="backToTop" class="btn btn-light rounded-circle p-3 position-fixed" style="right:16px; bottom:16px; display:none" aria-label="Kembali ke atas">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <!-- JS: Bootstrap + libs -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+  <script>
+    // ====== Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ====== Theme toggle (persist)
+    const htmlEl = document.documentElement;
+    const themeBtn = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) htmlEl.setAttribute('data-bs-theme', savedTheme);
+    themeBtn.addEventListener('click', () => {
+      const now = htmlEl.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-bs-theme', now);
+      localStorage.setItem('theme', now);
+      themeBtn.innerHTML = now === 'dark' ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon"></i>';
+    });
+
+    // ====== Typed effect (vanilla)
+    (function typeIt(){
+      const el = document.getElementById('typed');
+      const phrases = ['Web Developer • UI/UX • Frontend Engineer', 'Bangun website cepat & cantik', 'Fokus aksesibilitas & performa'];
+      let p = 0, i = 0, forward = true;
+      function tick(){
+        el.textContent = phrases[p].slice(0, i);
+        if (forward) {
+          i++;
+          if (i > phrases[p].length + 8) forward = false;
+        } else {
+          i--;
+          if (i < 0){ forward = true; p = (p+1)%phrases.length; }
+        }
+        setTimeout(tick, forward ? 60 : 35);
+      }
+      tick();
+    })();
+
+    // ====== Counters on view
+    const counters = document.querySelectorAll('[data-counter]');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          const el = entry.target;
+          const target = +el.getAttribute('data-counter');
+          let n = 0;
+          const step = Math.max(1, Math.round(target/60));
+          const t = setInterval(()=>{
+            n += step;
+            if (n >= target){ n = target; clearInterval(t); }
+            el.textContent = n;
+          }, 20);
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(c => obs.observe(c));
+
+    // ====== Back to top
+    const backBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backBtn.style.display = window.scrollY > 600 ? 'inline-flex' : 'none';
+    });
+    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // ====== Simple tilt
+    document.querySelectorAll('.tilt').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        const rx = ((y - r.height/2) / r.height) * -8;
+        const ry = ((x - r.width/2) / r.width) * 8;
+        card.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+      card.addEventListener('mouseleave', () => card.style.transform = 'none');
+    });
+
+    // ====== Particles (tiny canvas dots)
+    (function particles(){
+      const c = document.getElementById('particles');
+      const ctx = c.getContext('2d');
+      function resize(){ c.width = c.offsetWidth; c.height = c.offsetHeight; }
+      window.addEventListener('resize', resize); resize();
+      const dots = Array.from({length: 80}, () => ({
+        x: Math.random()*c.width, y: Math.random()*c.height,
+        vx: (Math.random()-.5)*0.6, vy: (Math.random()-.5)*0.6
+      }));
+      function draw(){
+        ctx.clearRect(0,0,c.width,c.height);
+        for (const d of dots){
+          d.x += d.vx; d.y += d.vy;
+          if (d.x<0||d.x>c.width) d.vx*=-1;
+          if (d.y<0||d.y>c.height) d.vy*=-1;
+          ctx.beginPath(); ctx.arc(d.x,d.y,1.5,0,Math.PI*2);
+          ctx.fillStyle = 'rgba(0,180,255,.7)'; ctx.fill();
+        }
+        // connect lines
+        for (let i=0;i<dots.length;i++){
+          for (let j=i+1;j<dots.length;j++){
+            const dx=dots[i].x-dots[j].x, dy=dots[i].y-dots[j].y;
+            const dist = Math.hypot(dx,dy);
+            if (dist<110){
+              ctx.strokeStyle = `rgba(108,92,231,${1-dist/110})`;
+              ctx.beginPath(); ctx.moveTo(dots[i].x,dots[i].y); ctx.lineTo(dots[j].x,dots[j].y); ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // ====== AOS
+    AOS.init({ once: true, duration: 700, easing: 'ease-out-cubic' });
+
+    // ====== Swiper
+    new Swiper('.mySwiper', {
+      spaceBetween: 24,
+      pagination: { el: '.swiper-pagination', clickable: true },
+      breakpoints: {
+        0: { slidesPerView: 1 },
+        768: { slidesPerView: 1.2 },
+        992: { slidesPerView: 1.5 }
+      }
+    });
+    new Swiper('.swiperTesti', {
+      autoHeight: true,
+      pagination: { el: '.swiper-pagination', clickable: true }
+    });
+
+    // ====== GLightbox
+    GLightbox({ selector: '.glightbox' });
+
+    // ====== Contact form validation (Bootstrap custom)
+    (function(){
+      const form = document.getElementById('contactForm');
+      form.addEventListener('submit', (e) => {
+        if (!form.checkValidity()){
+          e.preventDefault(); e.stopPropagation();
+        } else {
+          e.preventDefault();
+          const btn = form.querySelector('button[type="submit"]');
+          const orig = btn.innerHTML;
+          btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...';
+          setTimeout(() => {
+            btn.disabled = false; btn.innerHTML = orig;
+            form.reset();
+            alert('Terima kasih! Pesanmu sudah terkirim (simulasi).');
+          }, 1200);
+        }
+        form.classList.add('was-validated');
+      });
+    })();
+  </script>
+</body>
+</html>
